@@ -370,6 +370,7 @@ static bool is_native_simd_type(jl_datatype_t *dt) {
 #include "abi_win64.cpp"
 #include "abi_x86_64.cpp"
 #include "abi_x86.cpp"
+#include "abi_loongarch64.cpp"
 
 #if defined ABI_LLVM
   typedef ABI_LLVMLayout DefaultAbiState;
@@ -393,6 +394,8 @@ static bool is_native_simd_type(jl_datatype_t *dt) {
   typedef ABI_RiscvLayout DefaultAbiState;
 #elif defined _CPU_PPC64_
   typedef ABI_PPC64leLayout DefaultAbiState;
+#elif defined _CPU_LOONGARCH64_
+  typedef ABI_LoongArch64Layout DefaultAbiState;
 #else
 #  pragma message("ccall is defaulting to llvm ABI, since no platform ABI has been defined for this CPU/OS combination")
   typedef ABI_LLVMLayout DefaultAbiState;

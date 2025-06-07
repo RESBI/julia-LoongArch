@@ -335,7 +335,7 @@ void JL_NORETURN jl_finish_task(jl_task_t *ct)
     // let the runtime know this task is dead and find a new task to run
     jl_function_t *done = jl_atomic_load_relaxed(&task_done_hook_func);
     if (done == NULL) {
-        done = (jl_function_t*)jl_get_global_value(jl_base_module, jl_symbol("task_done_hook"), ct->world_age);
+        done = (jl_function_t*)jl_get_global(jl_base_module, jl_symbol("task_done_hook"));
         if (done != NULL)
             jl_atomic_store_release(&task_done_hook_func, done);
     }
@@ -1364,6 +1364,11 @@ static void jl_set_fiber(jl_ucontext_t *t)
 #define PUSH_RET(ctx, stk) \
     if (unw_set_reg(ctx, UNW_ARM_R14, 0)) /* put NULL into the LR */ \
         abort();
+#elif defined(_CPU_LOONGARCH64_) // <<< YOUR ADDITION
+#define PUSH_RET(ctx, stk) \
+    /* On LoongArch, the return address is in the `ra` register (r1) */ \
+    if (unw_set_reg(ctx, UNW_LOONGARCH64_R1, 0)) \
+        abort();
 #else
 #error please define how to simulate a CALL on this platform
 #endif
@@ -1489,6 +1494,14 @@ CFI_NORETURN
         " jr %1;\n" // call `fn` with fake stack frame
         " ebreak" // abort
         : : "r"(stk), "r"(fn) : "memory" );
+#elif defined(_CPU_LOONGARCH64_)
+    asm volatile(
+        "move $sp, %0\n\t"      // Set the stack pointer (sp is r3)
+        "move $ra, $zero\n\t"   // Clear return address register (ra is r1)
+        "move $fp, $zero\n\t"   // Clear frame pointer (fp is r22)
+        "jr %1\n\t"             // Jump to the start_task function
+        "break 0"               // Abort instruction, should be unreachable
+        : : "r"(stk), "r"(fn) : "memory");
 #elif defined(_CPU_PPC64_)
     // N.B.: There is two iterations of the PPC64 ABI.
     // v2 is current and used here. Make sure you have the
