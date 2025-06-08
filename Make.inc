@@ -35,8 +35,8 @@ OPENBLAS_USE_THREAD:=1
 # Please read the notes around usage of SYSTEM flags in README.md
 # Issues resulting from use of SYSTEM versions will generally not be accepted.
 USE_SYSTEM_CSL:=1
-USE_SYSTEM_LLVM:=1
-USE_SYSTEM_LIBUNWIND:=0
+USE_SYSTEM_LLVM:=0
+USE_SYSTEM_LIBUNWIND:=1
 DISABLE_LIBUNWIND:=0
 USE_SYSTEM_PCRE:=0
 USE_SYSTEM_LIBM:=0
