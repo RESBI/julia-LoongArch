@@ -28,6 +28,7 @@
  *          _CPU_AARCH64_
  *          _CPU_ARM_
  *          _CPU_RISCV64_
+ *          _CPU_LOONGARCH64_
  *          _CPU_WASM_
  */
 
@@ -113,6 +114,8 @@
 #define _CPU_PPC64_
 #elif defined(_ARCH_PPC)
 #define _CPU_PPC_
+#elif defined(__loongarch64)
+#define _CPU_LOONGARCH64_
 #elif defined(__wasm__)
 #define _CPU_WASM_
 #endif
