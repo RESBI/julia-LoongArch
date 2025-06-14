@@ -16,8 +16,8 @@
 .cfi_startproc SEP \
 .p2align    2 SEP \
  CNAME(name)##: SEP \
-    pcaddu12i TRAMPOLINE_REG, %pcrel_hi(CNAMEADDR(name)) SEP \
-    ld.d      TRAMPOLINE_REG, TRAMPOLINE_REG, %pcrel_lo(CNAME(name)) SEP \
+    pcaddu12i TRAMPOLINE_REG, %pc_hi20(CNAMEADDR(name)) SEP \
+    ld.d      TRAMPOLINE_REG, TRAMPOLINE_REG, %pc_lo12(CNAME(name)) SEP \
     jirl      $zero, TRAMPOLINE_REG, 0 SEP \
 .cfi_endproc SEP
 
