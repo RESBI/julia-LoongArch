@@ -727,7 +727,7 @@ win-extras:
 
 # various statistics about the build that may interest the user
 ifeq ($(USE_SYSTEM_LLVM), 1)
-LLVM_SIZE := llvm-size$(EXE)
+LLVM_SIZE := llvm-size-20$(EXE)
 else
 LLVM_SIZE := PATH=$(build_bindir):$$PATH; $(build_depsbindir)/llvm-size$(EXE)
 endif

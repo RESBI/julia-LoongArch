@@ -35,8 +35,8 @@ OPENBLAS_USE_THREAD:=1
 # Please read the notes around usage of SYSTEM flags in README.md
 # Issues resulting from use of SYSTEM versions will generally not be accepted.
 USE_SYSTEM_CSL:=1
-USE_SYSTEM_LLVM:=0
-USE_SYSTEM_LIBUNWIND:=1
+USE_SYSTEM_LLVM:=1
+USE_SYSTEM_LIBUNWIND:=0
 DISABLE_LIBUNWIND:=0
 USE_SYSTEM_PCRE:=0
 USE_SYSTEM_LIBM:=0
@@ -51,7 +51,7 @@ USE_SYSTEM_MPFR:=0
 USE_SYSTEM_LIBSUITESPARSE:=0
 USE_SYSTEM_LIBUV:=0
 USE_SYSTEM_UTF8PROC:=0
-USE_SYSTEM_OPENSSL:=1
+USE_SYSTEM_OPENSSL:=0
 USE_SYSTEM_LIBSSH2:=0
 USE_SYSTEM_NGHTTP2:=0
 USE_SYSTEM_CURL:=0
@@ -1234,7 +1234,7 @@ endif
 
 ifeq ($(origin LLVM_CONFIG), undefined)
 ifeq ($(USE_SYSTEM_LLVM), 1)
-LLVM_CONFIG := llvm-config$(EXE)
+LLVM_CONFIG := llvm-config-20$(EXE)
 else
 LLVM_CONFIG := $(build_depsbindir)/llvm-config$(EXE)
 endif
