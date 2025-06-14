@@ -724,6 +724,7 @@ static void get_function_name_and_base(llvm::object::SectionRef Section, size_t 
     bool needs_name = name && (!*name || untrusted_dladdr);
     // Try platform specific methods first since they are usually faster
     if (needs_saddr) {
+/*unw_get_proc_info_by_ip unsupported by libunwind 1.8.1, which was used on AOSC-loongarch64
 #if (defined(_OS_LINUX_) || defined(_OS_FREEBSD_)) && !defined(JL_DISABLE_LIBUNWIND)
         unw_proc_info_t pip;
         // Seems that libunwind may return NULL IP depending on what info it finds...
@@ -733,6 +734,7 @@ static void get_function_name_and_base(llvm::object::SectionRef Section, size_t 
             needs_saddr = false;
         }
 #endif
+*/
 #if defined(_OS_WINDOWS_) && defined(_CPU_X86_64_)
         DWORD64 ImageBase;
         PRUNTIME_FUNCTION fn = RtlLookupFunctionEntry(pointer, &ImageBase, NULL);
